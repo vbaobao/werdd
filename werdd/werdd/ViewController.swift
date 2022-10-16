@@ -8,17 +8,7 @@
 import UIKit
 
 class ViewController: UIViewController {
-    enum Padding: CGFloat {
-        case xsmall = 8
-        case small = 12
-        case medium = 16
-        case large = 24
-        case rounding = 18
-        
-        static func size(_ padding: Padding) -> CGFloat {
-            padding.rawValue
-        }
-    }
+    var data: [Data]
     
     let header: UILabel = {
         let label = UILabel()
@@ -29,7 +19,7 @@ class ViewController: UIViewController {
         return label
     }()
     
-    let knowledgeCard: UIView = {
+    let mainWordContainer: UIView = {
         let view = UIView()
         view.layer.cornerRadius = Padding.size(.rounding)
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -37,80 +27,85 @@ class ViewController: UIViewController {
         return view
     }()
     
-    let knowledgeCardTitle: UIStackView = {
-        let view = UIStackView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.alignment = .lastBaseline
-        view.axis = .horizontal
-        view.spacing = Padding.size(.small)
-        return view
+    var wordCard: WordCard
+    
+    lazy var refreshCardButton: UIButton = {
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setImage(Image.image(symbol: .refresh, size: .medium), for: .normal)
+        button.addTarget(self, action: #selector(refreshKnowledgeCard), for: .touchUpInside)
+        button.tintColor = Style.background(.white)
+        return button
     }()
     
-    let knowledgeCardWord: UILabel = {
-        let label = UILabel()
-        label.text = "cat"
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.textColor = Style.text(.standard)
-        label.font = Style.font(size: .large, style: .thick)
-        return label
-    }()
+    // MARK: - init
     
-    let knowledgeCardPartOfSpeech: UILabel = {
-        let label = UILabel()
-        label.text = "noun"
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.textColor = Style.text(.standard)
-        label.font = Style.font(size: .small, style: .standard_italic)
-        return label
-    }()
+    init(using data: [Data]) {
+        self.data = data
+        self.wordCard = WordCard(with: Self.getRandomWord(from: data))
+        
+        super.init(nibName: nil, bundle: nil)
+    }
     
-    let knowledgeCardDefinition: UILabel = {
-        let label = UILabel()
-        label.text = "a small domesticated carnivorous mammal with soft fur, a short snout, and retractable claws. It is widely kept as a pet or for catching mice, and many breeds have been developed."
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.textColor = Style.text(.standard)
-        label.font = Style.font(size: .standard, style: .standard)
-        label.numberOfLines = 5
-        label.lineBreakMode = .byWordWrapping
-        return label
-    }()
-
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    // MARK: - Lifecycle methods
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         view.backgroundColor = Style.background(.background)
         view.addSubview(header)
-        view.addSubview(knowledgeCard)
-        knowledgeCard.addSubview(knowledgeCardTitle)
-        knowledgeCard.addSubview(knowledgeCardDefinition)
-        knowledgeCardTitle.addArrangedSubview(knowledgeCardWord)
-        knowledgeCardTitle.addArrangedSubview(knowledgeCardPartOfSpeech)
+        view.addSubview(mainWordContainer)
+        mainWordContainer.addSubview(wordCard)
+        mainWordContainer.addSubview(refreshCardButton)
         
         setUpConstraints()
+        setUpViews()
+    }
+    
+    // MARK: - Set up UI
+    
+    private func setUpViews() {
+        view.backgroundColor = Style.background(.background)
+        view.addSubview(header)
+        view.addSubview(mainWordContainer)
+        mainWordContainer.addSubview(wordCard)
+        mainWordContainer.addSubview(refreshCardButton)
     }
 
     private func setUpConstraints() {
         NSLayoutConstraint.activate([
             header.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: Padding.size(.large)),
-            header.bottomAnchor.constraint(equalTo: knowledgeCard.topAnchor, constant: Padding.size(.medium) * -1),
+            header.bottomAnchor.constraint(equalTo: mainWordContainer.topAnchor, constant: Padding.size(.medium) * -1),
             header.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Padding.size(.large)),
             header.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: Padding.size(.large) * -1),
             
-            knowledgeCard.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.3),
-            knowledgeCard.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Padding.size(.large)),
-            knowledgeCard.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: Padding.size(.large) * -1),
+            mainWordContainer.heightAnchor.constraint(greaterThanOrEqualToConstant: 200),
+            mainWordContainer.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Padding.size(.large)),
+            mainWordContainer.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: Padding.size(.large) * -1),
             
-            knowledgeCardTitle.leadingAnchor.constraint(equalTo: knowledgeCard.leadingAnchor, constant: Padding.size(.medium)),
-            knowledgeCardTitle.topAnchor.constraint(equalTo: knowledgeCard.topAnchor, constant: Padding.size(.medium)),
-            knowledgeCardTitle.bottomAnchor.constraint(equalTo: knowledgeCardDefinition.topAnchor, constant: Padding.size(.xsmall) * -1),
-            knowledgeCardTitle.trailingAnchor.constraint(lessThanOrEqualTo: knowledgeCard.trailingAnchor, constant: Padding.size(.medium) * -1),
+            wordCard.leadingAnchor.constraint(equalTo: mainWordContainer.leadingAnchor),
+            wordCard.trailingAnchor.constraint(equalTo: mainWordContainer.trailingAnchor),
+            wordCard.topAnchor.constraint(equalTo: mainWordContainer.topAnchor),
+            wordCard.bottomAnchor.constraint(lessThanOrEqualTo: refreshCardButton.topAnchor),
             
-//            knowledgeCardWord.trailingAnchor.constraint(equalTo: knowledgeCardPartOfSpeech.leadingAnchor, constant: Padding.size(.small) * -1),
-            
-            knowledgeCardDefinition.leadingAnchor.constraint(equalTo: knowledgeCard.leadingAnchor, constant: Padding.size(.medium)),
-            knowledgeCardDefinition.trailingAnchor.constraint(equalTo: knowledgeCard.trailingAnchor, constant: Padding.size(.medium) * -1),
-            
+            refreshCardButton.trailingAnchor.constraint(equalTo: mainWordContainer.trailingAnchor, constant: Padding.size(.small) * -1),
+            refreshCardButton.bottomAnchor.constraint(equalTo: mainWordContainer.bottomAnchor, constant: Padding.size(.small) * -1)
         ])
+    }
+    
+    // MARK: - Private helper functions
+    
+    @objc private func refreshKnowledgeCard() {
+        let newWord = Self.getRandomWord(from: data)
+        wordCard.updateCell(with: newWord)
+    }
+    
+    private static func getRandomWord(from dataset: [Data]) -> Data? {
+        dataset.randomElement() ?? nil
     }
 }
 
