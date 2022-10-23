@@ -20,7 +20,7 @@ enum Padding: CGFloat {
     }
 }
 
-struct Style {
+struct Styles {
     enum Colors {
         case background
         case primary

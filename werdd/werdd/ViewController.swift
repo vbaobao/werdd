@@ -8,14 +8,17 @@
 import UIKit
 
 class ViewController: UIViewController {
-    var data: [Data]
+    
+    var data: [WordData]
+    
+    let wordListDelegate: WordListDelegate?
     
     let header: UILabel = {
         let label = UILabel()
         label.text = "werdd."
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.textColor = Style.text(.standard)
-        label.font = Style.font(size: .xlarge, style: .thick)
+        label.textColor = Styles.text(.standard)
+        label.font = Styles.font(size: .xlarge, style: .thick)
         return label
     }()
     
@@ -23,26 +26,33 @@ class ViewController: UIViewController {
         let view = UIView()
         view.layer.cornerRadius = Padding.size(.rounding)
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = Style.background(.accent)
+        view.backgroundColor = Styles.background(.accent)
         return view
     }()
     
-    var wordCard: WordCard
+    var wordCard: WordCardViewCell
+    
+    let wordList: WordListTableView
     
     lazy var refreshCardButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setImage(Image.image(symbol: .refresh, size: .medium), for: .normal)
         button.addTarget(self, action: #selector(refreshKnowledgeCard), for: .touchUpInside)
-        button.tintColor = Style.background(.white)
+        button.tintColor = Styles.background(.white)
         return button
     }()
     
     // MARK: - init
     
-    init(using data: [Data]) {
+    init(using data: [WordData]) {
         self.data = data
-        self.wordCard = WordCard(with: Self.getRandomWord(from: data))
+        let highlightedWord = Self.getRandomWord(from: data)
+        self.wordCard = WordCardViewCell(with: highlightedWord)
+        self.wordList = WordListTableView(data: data,
+                                          word: highlightedWord,
+                                          wordCardDelegate: wordCard)
+        self.wordListDelegate = wordList
         
         super.init(nibName: nil, bundle: nil)
     }
@@ -55,23 +65,17 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        view.backgroundColor = Style.background(.background)
-        view.addSubview(header)
-        view.addSubview(mainWordContainer)
-        mainWordContainer.addSubview(wordCard)
-        mainWordContainer.addSubview(refreshCardButton)
-        
-        setUpConstraints()
+        view.backgroundColor = Styles.background(.background)
         setUpViews()
+        setUpConstraints()
     }
     
     // MARK: - Set up UI
     
     private func setUpViews() {
-        view.backgroundColor = Style.background(.background)
         view.addSubview(header)
         view.addSubview(mainWordContainer)
+        view.addSubview(wordList)
         mainWordContainer.addSubview(wordCard)
         mainWordContainer.addSubview(refreshCardButton)
     }
@@ -80,12 +84,12 @@ class ViewController: UIViewController {
         NSLayoutConstraint.activate([
             header.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: Padding.size(.large)),
             header.bottomAnchor.constraint(equalTo: mainWordContainer.topAnchor, constant: Padding.size(.medium) * -1),
-            header.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Padding.size(.large)),
-            header.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: Padding.size(.large) * -1),
+            header.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: Padding.size(.large)),
+            header.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: Padding.size(.large) * -1),
             
-            mainWordContainer.heightAnchor.constraint(greaterThanOrEqualToConstant: 200),
-            mainWordContainer.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Padding.size(.large)),
-            mainWordContainer.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: Padding.size(.large) * -1),
+            mainWordContainer.heightAnchor.constraint(greaterThanOrEqualToConstant: 150),
+            mainWordContainer.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: Padding.size(.large)),
+            mainWordContainer.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: Padding.size(.large) * -1),
             
             wordCard.leadingAnchor.constraint(equalTo: mainWordContainer.leadingAnchor),
             wordCard.trailingAnchor.constraint(equalTo: mainWordContainer.trailingAnchor),
@@ -93,7 +97,13 @@ class ViewController: UIViewController {
             wordCard.bottomAnchor.constraint(lessThanOrEqualTo: refreshCardButton.topAnchor),
             
             refreshCardButton.trailingAnchor.constraint(equalTo: mainWordContainer.trailingAnchor, constant: Padding.size(.small) * -1),
-            refreshCardButton.bottomAnchor.constraint(equalTo: mainWordContainer.bottomAnchor, constant: Padding.size(.small) * -1)
+            refreshCardButton.bottomAnchor.constraint(equalTo: mainWordContainer.bottomAnchor, constant: Padding.size(.small) * -1),
+            
+            wordList.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            wordList.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            wordList.topAnchor.constraint(equalTo: mainWordContainer.bottomAnchor, constant: Padding.size(.medium)),
+            wordList.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            wordList.heightAnchor.constraint(greaterThanOrEqualToConstant: 350)
         ])
     }
     
@@ -101,10 +111,11 @@ class ViewController: UIViewController {
     
     @objc private func refreshKnowledgeCard() {
         let newWord = Self.getRandomWord(from: data)
+        wordListDelegate?.update(highlightedWord: newWord)
         wordCard.updateCell(with: newWord)
     }
     
-    private static func getRandomWord(from dataset: [Data]) -> Data? {
+    private static func getRandomWord(from dataset: [WordData]) -> WordData? {
         dataset.randomElement() ?? nil
     }
 }
