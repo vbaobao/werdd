@@ -8,11 +8,13 @@
 import Foundation
 import UIKit
 
-class WordCard: UIView {
+// TODO: - 12/23/22 Move main word container UI elements in here as well.
+
+class WordCardViewCell: UIView, WordCardDelegate {
     
     // MARK: - init
     
-    init(with data: Data?) {
+    init(with data: WordData?) {
         super.init(frame: .zero)
         translatesAutoresizingMaskIntoConstraints = false
         setUpViews()
@@ -36,24 +38,24 @@ class WordCard: UIView {
     var word: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.textColor = Style.text(.standard)
-        label.font = Style.font(size: .large, style: .thick)
+        label.textColor = Styles.text(.standard)
+        label.font = Styles.font(size: .large, style: .thick)
         return label
     }()
     
     var partOfSpeech: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.textColor = Style.text(.standard)
-        label.font = Style.font(size: .small, style: .standard_italic)
+        label.textColor = Styles.text(.standard)
+        label.font = Styles.font(size: .small, style: .standard_italic)
         return label
     }()
     
     var definition: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.textColor = Style.text(.standard)
-        label.font = Style.font(size: .standard, style: .standard)
+        label.textColor = Styles.text(.standard)
+        label.font = Styles.font(size: .standard, style: .standard)
         label.numberOfLines = 5
         label.lineBreakMode = .byWordWrapping
         return label
@@ -82,7 +84,7 @@ class WordCard: UIView {
     
     // MARK: - Helper functions
     
-    func updateCell(with data: Data?) {
+    func updateCell(with data: WordData?) {
         if let data = data {
             word.text = data.word
             partOfSpeech.text = data.partOfSpeech.localizedString
@@ -92,5 +94,11 @@ class WordCard: UIView {
             partOfSpeech.text = ""
             definition.text = NSLocalizedString("No word available!", comment: "Error message if there is no data from API call")
         }
+    }
+    
+    // MARK: - WordCardDelegate Methods
+    
+    func update(wordCard updatedWordCard: WordData) {
+        updateCell(with: updatedWordCard)
     }
 }
