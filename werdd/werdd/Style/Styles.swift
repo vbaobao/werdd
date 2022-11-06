@@ -68,7 +68,7 @@ struct Styles {
         }
     }
     
-    static func text(_ color: Text) -> UIColor {
+    static func textColor(_ color: Text) -> UIColor {
         switch color {
         case .standard:
             return UIColor(red: 0, green: 0, blue: 0, alpha: 1)
@@ -79,8 +79,8 @@ struct Styles {
         }
     }
     
-    static func font(size: FontSize, style: FontStyle) -> UIFont? {
-        UIFont(name: style.rawValue, size: size.rawValue)
+    static func font(size: FontSize, style: FontStyle) -> UIFont {
+        UIFont(name: style.rawValue, size: size.rawValue) ?? UIFont()
     }
 }
 

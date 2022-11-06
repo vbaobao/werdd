@@ -8,9 +8,7 @@
 import Foundation
 import UIKit
 
-// TODO: - 12/23/22 Move main word container UI elements in here as well.
-
-class WordCardViewCell: UIView, WordCardDelegate {
+class WordCardViewCell: UIView {
     
     // MARK: - init
     
@@ -19,6 +17,10 @@ class WordCardViewCell: UIView, WordCardDelegate {
         translatesAutoresizingMaskIntoConstraints = false
         setUpViews()
         setUpConstraints()
+        
+        setWord()
+        setPartOfSpeech()
+        setDefinition()
         updateCell(with: data)
     }
     
@@ -38,28 +40,28 @@ class WordCardViewCell: UIView, WordCardDelegate {
     var word: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.textColor = Styles.text(.standard)
-        label.font = Styles.font(size: .large, style: .thick)
         return label
     }()
     
     var partOfSpeech: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.textColor = Styles.text(.standard)
-        label.font = Styles.font(size: .small, style: .standard_italic)
         return label
     }()
     
     var definition: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.textColor = Styles.text(.standard)
-        label.font = Styles.font(size: .standard, style: .standard)
-        label.numberOfLines = 5
+        label.numberOfLines = 0
         label.lineBreakMode = .byWordWrapping
         return label
     }()
+    
+    var height: CGFloat {
+        (self.subviews.map { $0.frame.height }).reduce(into: 0) { partial, element in
+            partial += element
+        }
+    }
     
     // MARK: - Set up UI
     
@@ -72,17 +74,36 @@ class WordCardViewCell: UIView, WordCardDelegate {
     
     private func setUpConstraints() {
         NSLayoutConstraint.activate([
-            title.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: Padding.size(.medium)),
-            title.topAnchor.constraint(equalTo: self.topAnchor, constant: Padding.size(.medium)),
+            title.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Padding.size(.medium)),
+            title.topAnchor.constraint(equalTo: topAnchor, constant: Padding.size(.medium)),
             title.bottomAnchor.constraint(equalTo: definition.topAnchor, constant: Padding.size(.xsmall) * -1),
-            title.trailingAnchor.constraint(lessThanOrEqualTo: self.trailingAnchor, constant: Padding.size(.medium) * -1),
+            title.trailingAnchor.constraint(lessThanOrEqualTo: trailingAnchor, constant: Padding.size(.medium) * -1),
             
-            definition.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: Padding.size(.medium)),
-            definition.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: Padding.size(.medium) * -1),
+            definition.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Padding.size(.medium)),
+            definition.trailingAnchor.constraint(lessThanOrEqualTo: trailingAnchor, constant: Padding.size(.medium) * -1),
+            definition.bottomAnchor.constraint(lessThanOrEqualTo: bottomAnchor, constant: Padding.size(.medium) * -1),
         ])
     }
     
     // MARK: - Helper functions
+    
+    func setWord(font: UIFont = Styles.font(size: .large, style: .thick),
+             color: UIColor = Styles.textColor(.standard)) {
+        word.font = font
+        word.textColor = color
+    }
+    
+    func setPartOfSpeech(font: UIFont = Styles.font(size: .small, style: .standard_italic),
+             color: UIColor = Styles.textColor(.standard)) {
+        partOfSpeech.font = font
+        partOfSpeech.textColor = color
+    }
+    
+    func setDefinition(font: UIFont = Styles.font(size: .standard, style: .standard),
+             color: UIColor = Styles.textColor(.standard)) {
+        definition.font = font
+        definition.textColor = color
+    }
     
     func updateCell(with data: WordData?) {
         if let data = data {
@@ -94,11 +115,5 @@ class WordCardViewCell: UIView, WordCardDelegate {
             partOfSpeech.text = ""
             definition.text = NSLocalizedString("No word available!", comment: "Error message if there is no data from API call")
         }
-    }
-    
-    // MARK: - WordCardDelegate Methods
-    
-    func update(wordCard updatedWordCard: WordData) {
-        updateCell(with: updatedWordCard)
     }
 }
