@@ -11,13 +11,13 @@ class ViewController: UIViewController {
     
     var data: [WordData]
     
-    let wordListDelegate: WordListDelegate?
+    var highlightedWord: WordData?
     
     let header: UILabel = {
         let label = UILabel()
         label.text = "werdd."
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.textColor = Styles.text(.standard)
+        label.textColor = Styles.textColor(.standard)
         label.font = Styles.font(size: .xlarge, style: .thick)
         return label
     }()
@@ -47,12 +47,9 @@ class ViewController: UIViewController {
     
     init(using data: [WordData]) {
         self.data = data
-        let highlightedWord = Self.getRandomWord(from: data)
+        self.highlightedWord = Self.getRandomWord(from: data)
         self.wordCard = WordCardViewCell(with: highlightedWord)
-        self.wordList = WordListTableView(data: data,
-                                          word: highlightedWord,
-                                          wordCardDelegate: wordCard)
-        self.wordListDelegate = wordList
+        self.wordList = WordListTableView()
         
         super.init(nibName: nil, bundle: nil)
     }
@@ -66,8 +63,15 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = Styles.background(.background)
+        
         setUpViews()
         setUpConstraints()
+        
+        wordList.delegate = self
+        wordList.dataSource = self
+        wordList.register(WordListTableViewCell.self, forCellReuseIdentifier: "WordListTableViewCell")
+        wordList.rowHeight = UITableView.automaticDimension
+        wordList.estimatedRowHeight = 80
     }
     
     // MARK: - Set up UI
@@ -87,15 +91,15 @@ class ViewController: UIViewController {
             header.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: Padding.size(.large)),
             header.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: Padding.size(.large) * -1),
             
-            mainWordContainer.heightAnchor.constraint(greaterThanOrEqualToConstant: 150),
+            mainWordContainer.heightAnchor.constraint(greaterThanOrEqualToConstant: 250),
             mainWordContainer.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: Padding.size(.large)),
             mainWordContainer.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: Padding.size(.large) * -1),
             
             wordCard.leadingAnchor.constraint(equalTo: mainWordContainer.leadingAnchor),
             wordCard.trailingAnchor.constraint(equalTo: mainWordContainer.trailingAnchor),
             wordCard.topAnchor.constraint(equalTo: mainWordContainer.topAnchor),
-            wordCard.bottomAnchor.constraint(lessThanOrEqualTo: refreshCardButton.topAnchor),
             
+            refreshCardButton.topAnchor.constraint(equalTo: wordCard.bottomAnchor, constant: Padding.size(.small)),
             refreshCardButton.trailingAnchor.constraint(equalTo: mainWordContainer.trailingAnchor, constant: Padding.size(.small) * -1),
             refreshCardButton.bottomAnchor.constraint(equalTo: mainWordContainer.bottomAnchor, constant: Padding.size(.small) * -1),
             
@@ -103,7 +107,7 @@ class ViewController: UIViewController {
             wordList.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             wordList.topAnchor.constraint(equalTo: mainWordContainer.bottomAnchor, constant: Padding.size(.medium)),
             wordList.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-            wordList.heightAnchor.constraint(greaterThanOrEqualToConstant: 350)
+            wordList.heightAnchor.constraint(greaterThanOrEqualToConstant: 500)
         ])
     }
     
@@ -111,7 +115,6 @@ class ViewController: UIViewController {
     
     @objc private func refreshKnowledgeCard() {
         let newWord = Self.getRandomWord(from: data)
-        wordListDelegate?.update(highlightedWord: newWord)
         wordCard.updateCell(with: newWord)
     }
     
@@ -120,3 +123,32 @@ class ViewController: UIViewController {
     }
 }
 
+extension ViewController: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        data.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "WordListTableViewCell", for: indexPath) as? WordListTableViewCell else {
+            return UITableViewCell()
+        }
+        let word = data[indexPath.row]
+        cell.update(with: word)
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableView.automaticDimension
+    }
+    
+    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 50
+    }
+}
+
+extension ViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let newWord = data[indexPath.row]
+        wordCard.updateCell(with: newWord)
+    }
+}
