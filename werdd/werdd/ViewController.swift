@@ -13,8 +13,6 @@ class ViewController: UIViewController {
     
     var highlightedWord: WordData?
     
-    let wordListDelegate: WordListDelegate?
-    
     let header: UILabel = {
         let label = UILabel()
         label.text = "werdd."
@@ -52,7 +50,6 @@ class ViewController: UIViewController {
         self.highlightedWord = Self.getRandomWord(from: data)
         self.wordCard = WordCardViewCell(with: highlightedWord)
         self.wordList = WordListTableView()
-        self.wordListDelegate = wordList
         
         super.init(nibName: nil, bundle: nil)
     }
@@ -118,7 +115,6 @@ class ViewController: UIViewController {
     
     @objc private func refreshKnowledgeCard() {
         let newWord = Self.getRandomWord(from: data)
-        wordListDelegate?.update(highlightedWord: newWord)
         wordCard.updateCell(with: newWord)
     }
     
@@ -151,9 +147,8 @@ extension ViewController: UITableViewDataSource {
 }
 
 extension ViewController: UITableViewDelegate {
-//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        let newWord = wordList.data[indexPath.row]
-//        wordCardDelegate?.update(wordCard: newWord)
-//        update(highlightedWord: newWord)
-//    }
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let newWord = data[indexPath.row]
+        wordCard.updateCell(with: newWord)
+    }
 }

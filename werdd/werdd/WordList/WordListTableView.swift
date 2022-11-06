@@ -30,9 +30,3 @@ class WordListTableView: UITableView {
         layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
     }
 }
-
-extension WordListTableView: WordListDelegate {
-    func update(highlightedWord newWord: WordData?) {
-        self.reloadSections(IndexSet(integer: 0), with: .fade)
-    }
-}

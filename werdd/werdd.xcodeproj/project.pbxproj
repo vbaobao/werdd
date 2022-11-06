@@ -7,14 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		3213B8BE2905427B00FF6EA1 /* WordCardDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3213B8BD2905427B00FF6EA1 /* WordCardDelegate.swift */; };
 		322DF89428ED0E52005A67E2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 322DF89328ED0E52005A67E2 /* AppDelegate.swift */; };
 		322DF89628ED0E52005A67E2 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 322DF89528ED0E52005A67E2 /* SceneDelegate.swift */; };
 		322DF89828ED0E52005A67E2 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 322DF89728ED0E52005A67E2 /* ViewController.swift */; };
 		322DF89D28ED0E53005A67E2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 322DF89C28ED0E53005A67E2 /* Assets.xcassets */; };
 		322DF8A028ED0E53005A67E2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 322DF89E28ED0E53005A67E2 /* LaunchScreen.storyboard */; };
 		322DF8A828ED10A8005A67E2 /* Styles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 322DF8A728ED10A8005A67E2 /* Styles.swift */; };
-		3251909529049F6800F2EC51 /* WordListDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3251909429049F6800F2EC51 /* WordListDelegate.swift */; };
 		326AA52228FC92B800841AA6 /* WordListTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 326AA52128FC92B800841AA6 /* WordListTableView.swift */; };
 		3293859028FB72CD00AC3B0F /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3293858F28FB72CD00AC3B0F /* Data.swift */; };
 		3293859328FB848600AC3B0F /* WordCardViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3293859228FB848600AC3B0F /* WordCardViewCell.swift */; };
@@ -30,7 +28,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		3213B8BD2905427B00FF6EA1 /* WordCardDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordCardDelegate.swift; sourceTree = "<group>"; };
 		322DF89028ED0E52005A67E2 /* werdd.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = werdd.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		322DF89328ED0E52005A67E2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		322DF89528ED0E52005A67E2 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -39,7 +36,6 @@
 		322DF89F28ED0E53005A67E2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		322DF8A128ED0E53005A67E2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		322DF8A728ED10A8005A67E2 /* Styles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Styles.swift; sourceTree = "<group>"; };
-		3251909429049F6800F2EC51 /* WordListDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordListDelegate.swift; sourceTree = "<group>"; };
 		326AA52128FC92B800841AA6 /* WordListTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordListTableView.swift; sourceTree = "<group>"; };
 		3293858F28FB72CD00AC3B0F /* Data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Data.swift; sourceTree = "<group>"; };
 		3293859228FB848600AC3B0F /* WordCardViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordCardViewCell.swift; sourceTree = "<group>"; };
@@ -69,7 +65,6 @@
 			isa = PBXGroup;
 			children = (
 				3293859228FB848600AC3B0F /* WordCardViewCell.swift */,
-				3213B8BD2905427B00FF6EA1 /* WordCardDelegate.swift */,
 			);
 			path = WordCard;
 			sourceTree = "<group>";
@@ -135,7 +130,6 @@
 			isa = PBXGroup;
 			children = (
 				326AA52128FC92B800841AA6 /* WordListTableView.swift */,
-				3251909429049F6800F2EC51 /* WordListDelegate.swift */,
 				32E345C4290F37F90063369C /* WordListTableViewCell.swift */,
 			);
 			path = WordList;
@@ -221,9 +215,7 @@
 			files = (
 				322DF89828ED0E52005A67E2 /* ViewController.swift in Sources */,
 				32E345C5290F37F90063369C /* WordListTableViewCell.swift in Sources */,
-				3213B8BE2905427B00FF6EA1 /* WordCardDelegate.swift in Sources */,
 				3293859028FB72CD00AC3B0F /* Data.swift in Sources */,
-				3251909529049F6800F2EC51 /* WordListDelegate.swift in Sources */,
 				322DF8A828ED10A8005A67E2 /* Styles.swift in Sources */,
 				3293859328FB848600AC3B0F /* WordCardViewCell.swift in Sources */,
 				322DF89428ED0E52005A67E2 /* AppDelegate.swift in Sources */,
