@@ -140,7 +140,14 @@ extension BigCardViewController: UITableViewDataSource {
 
 extension BigCardViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let newWord = data[indexPath.row]
-        wordCard.updateCell(with: newWord)
+        if let cell = tableView.cellForRow(at: indexPath) as? WordListTableViewCell {
+            cell.didSelect()
+        }
+    }
+
+    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+        if let cell = tableView.cellForRow(at: indexPath) as? WordListTableViewCell {
+            cell.didDeselect()
+        }
     }
 }
