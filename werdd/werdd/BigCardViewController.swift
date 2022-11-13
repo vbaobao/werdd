@@ -7,20 +7,11 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class BigCardViewController: UIViewController {
     
     var data: [WordData]
     
     var highlightedWord: WordData?
-    
-    let header: UILabel = {
-        let label = UILabel()
-        label.text = "werdd."
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.textColor = Styles.textColor(.standard)
-        label.font = Styles.font(size: .xlarge, style: .thick)
-        return label
-    }()
     
     let mainWordContainer: UIView = {
         let view = UIView()
@@ -63,6 +54,12 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = Styles.background(.background)
+        navigationItem.title = "werdd"
+        let attributes = [
+            NSAttributedString.Key.font: Styles.font(size: .xlarge, style: .thick),
+            NSAttributedString.Key.foregroundColor: Styles.textColor(.standard),
+        ]
+        navigationController?.navigationBar.titleTextAttributes = attributes
         
         setUpViews()
         setUpConstraints()
@@ -77,7 +74,6 @@ class ViewController: UIViewController {
     // MARK: - Set up UI
     
     private func setUpViews() {
-        view.addSubview(header)
         view.addSubview(mainWordContainer)
         view.addSubview(wordList)
         mainWordContainer.addSubview(wordCard)
@@ -86,12 +82,8 @@ class ViewController: UIViewController {
 
     private func setUpConstraints() {
         NSLayoutConstraint.activate([
-            header.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: Padding.size(.large)),
-            header.bottomAnchor.constraint(equalTo: mainWordContainer.topAnchor, constant: Padding.size(.medium) * -1),
-            header.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: Padding.size(.large)),
-            header.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: Padding.size(.large) * -1),
-            
             mainWordContainer.heightAnchor.constraint(greaterThanOrEqualToConstant: 250),
+            mainWordContainer.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             mainWordContainer.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: Padding.size(.large)),
             mainWordContainer.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: Padding.size(.large) * -1),
             
@@ -123,7 +115,7 @@ class ViewController: UIViewController {
     }
 }
 
-extension ViewController: UITableViewDataSource {
+extension BigCardViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         data.count
     }
@@ -146,7 +138,7 @@ extension ViewController: UITableViewDataSource {
     }
 }
 
-extension ViewController: UITableViewDelegate {
+extension BigCardViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let newWord = data[indexPath.row]
         wordCard.updateCell(with: newWord)
