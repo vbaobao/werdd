@@ -143,6 +143,9 @@ extension BigCardViewController: UITableViewDelegate {
         if let cell = tableView.cellForRow(at: indexPath) as? WordListTableViewCell {
             cell.didSelect()
         }
+        
+        let newWord = data[indexPath.row]
+        wordCard.updateCell(with: newWord)
     }
 
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
