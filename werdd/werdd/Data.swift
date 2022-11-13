@@ -15,6 +15,15 @@ struct WordData: Equatable {
     let antonym: String?
     let example: String
     
+    var details:[WordDetailType: String?] {
+        return [
+            .definition: definition,
+            .synonym: synonym,
+            .antonym: antonym,
+            .example: example
+        ]
+    }
+    
     static func == (lhs: Self, rhs: Self) -> Bool {
         lhs.word == rhs.word && lhs.partOfSpeech == rhs.partOfSpeech && lhs.definition == rhs.definition && lhs.synonym == rhs.synonym && lhs.antonym == rhs.antonym && lhs.example == rhs.example
     }

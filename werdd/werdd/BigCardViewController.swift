@@ -134,6 +134,7 @@ class BigCardViewController: UIViewController {
     
     @objc private func refreshKnowledgeCard() {
         let newWord = Self.getRandomWord(from: data)
+        highlightedWord = newWord
         wordCard.updateCell(with: newWord)
     }
     
@@ -172,6 +173,7 @@ extension BigCardViewController: UITableViewDelegate {
         }
         
         let newWord = data[indexPath.row]
+        highlightedWord = newWord
         wordCard.updateCell(with: newWord)
     }
 
