@@ -20,7 +20,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         let window = UIWindow(windowScene: windowScene)
         window.makeKeyAndVisible()
-        window.rootViewController = ViewController(using: data)
+        let nav = UINavigationController(rootViewController: BigCardViewController(using: data))
+        window.rootViewController = nav
         
         self.window = window
     }

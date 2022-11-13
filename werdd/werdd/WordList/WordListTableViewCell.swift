@@ -12,13 +12,6 @@ class WordListTableViewCell: UITableViewCell {
     
     var wordCard: WordCardViewCell
     
-    var selectedCell: UIView = {
-        let view = UIView()
-        view.backgroundColor = Styles.background(.primary)
-        view.layer.cornerRadius = Padding.size(.rounding)
-        return view
-    }()
-    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         self.wordCard = WordCardViewCell(with: nil)
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -41,7 +34,7 @@ class WordListTableViewCell: UITableViewCell {
     
     private func setUpUI() {
         backgroundColor = .clear
-        selectedBackgroundView = selectedCell
+        selectionStyle = .none
         contentView.backgroundColor = Styles.background(.secondary)
         contentView.layer.cornerRadius = Padding.size(.rounding)
         wordCard.definition.lineBreakMode = .byTruncatingTail
@@ -69,5 +62,17 @@ class WordListTableViewCell: UITableViewCell {
     
     func update(with word: WordData) {
         wordCard.updateCell(with: word)
+    }
+    
+    func didSelect() {
+        UIView.animate(withDuration: 0.4) {
+            self.contentView.backgroundColor = Styles.background(.primary)
+        }
+    }
+    
+    func didDeselect() {
+        UIView.animate(withDuration: 0.4) {
+            self.contentView.backgroundColor = Styles.background(.secondary)
+        }
     }
 }
