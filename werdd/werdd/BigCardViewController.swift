@@ -69,6 +69,12 @@ class BigCardViewController: UIViewController {
         wordList.register(WordListTableViewCell.self, forCellReuseIdentifier: "WordListTableViewCell")
         wordList.rowHeight = UITableView.automaticDimension
         wordList.estimatedRowHeight = 80
+        
+        /// Swipe to next view controller
+        let swipeGestureRecognizerLeft = UISwipeGestureRecognizer(target: self,
+                                                                  action: #selector(didSwipe(_:)))
+        swipeGestureRecognizerLeft.direction = .left
+        view.addGestureRecognizer(swipeGestureRecognizerLeft)
     }
     
     // MARK: - Set up UI
@@ -105,8 +111,14 @@ class BigCardViewController: UIViewController {
     
     // MARK: - Private helper functions
     
+    @objc private func didSwipe(_ sender: UISwipeGestureRecognizer) {
+        navigationController?.pushViewController(WordDetailsViewController(word: highlightedWord),
+                                                 animated: true)
+    }
+    
     @objc private func refreshKnowledgeCard() {
         let newWord = Self.getRandomWord(from: data)
+        highlightedWord = newWord
         wordCard.updateCell(with: newWord)
     }
     
@@ -145,6 +157,7 @@ extension BigCardViewController: UITableViewDelegate {
         }
         
         let newWord = data[indexPath.row]
+        highlightedWord = newWord
         wordCard.updateCell(with: newWord)
     }
 

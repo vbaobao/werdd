@@ -29,10 +29,11 @@ struct Styles {
         case white
     }
 
-    enum Text {
+    enum TextColor {
         case standard
         case alert
         case faint
+        case white
     }
 
     enum FontStyle: String {
@@ -68,7 +69,7 @@ struct Styles {
         }
     }
     
-    static func textColor(_ color: Text) -> UIColor {
+    static func textColor(_ color: TextColor) -> UIColor {
         switch color {
         case .standard:
             return UIColor(red: 0, green: 0, blue: 0, alpha: 1)
@@ -76,6 +77,8 @@ struct Styles {
             return UIColor(red: 218/255, green: 127/255, blue: 143/255, alpha: 1)
         case .faint:
             return UIColor(red: 65/255, green: 63/255, blue: 66/255, alpha: 1)
+        case .white:
+            return UIColor(red: 1, green: 1, blue: 1, alpha: 1)
         }
     }
     
