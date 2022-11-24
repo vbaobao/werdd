@@ -12,7 +12,7 @@ class WordCardViewCell: UIView {
     
     // MARK: - init
     
-    init(with data: WordData?) {
+    init(with data: RequestWordData?) {
         super.init(frame: .zero)
         translatesAutoresizingMaskIntoConstraints = false
         setUpViews()
@@ -105,11 +105,11 @@ class WordCardViewCell: UIView {
         definition.textColor = color
     }
     
-    func updateCell(with data: WordData?) {
+    func updateCell(with data: RequestWordData?) {
         if let data = data {
             word.text = data.word
-            partOfSpeech.text = data.partOfSpeech.localizedString
-            definition.text = data.definition
+            partOfSpeech.text = data.results.first?.partOfSpeech
+            definition.text = data.results.first?.definition
         } else {
             word.text = NSLocalizedString("Error", comment: "Error title")
             partOfSpeech.text = ""

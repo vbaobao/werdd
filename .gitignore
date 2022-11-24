@@ -21,3 +21,6 @@ xcuserdata/
 
 ### DS_Store ###
 *.DS_Store
+
+### Keys ###
+Keys.swift

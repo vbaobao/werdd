@@ -9,12 +9,14 @@
 /* Begin PBXBuildFile section */
 		322DF89428ED0E52005A67E2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 322DF89328ED0E52005A67E2 /* AppDelegate.swift */; };
 		322DF89628ED0E52005A67E2 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 322DF89528ED0E52005A67E2 /* SceneDelegate.swift */; };
-		322DF89828ED0E52005A67E2 /* BigCardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 322DF89728ED0E52005A67E2 /* BigCardViewController.swift */; };
+		322DF89828ED0E52005A67E2 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 322DF89728ED0E52005A67E2 /* MainViewController.swift */; };
 		322DF89D28ED0E53005A67E2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 322DF89C28ED0E53005A67E2 /* Assets.xcassets */; };
 		322DF8A028ED0E53005A67E2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 322DF89E28ED0E53005A67E2 /* LaunchScreen.storyboard */; };
 		322DF8A828ED10A8005A67E2 /* Styles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 322DF8A728ED10A8005A67E2 /* Styles.swift */; };
 		322E3166292C1AA800E3376B /* WordListCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 322E3165292C1AA800E3376B /* WordListCollectionView.swift */; };
 		322E3168292C1ABB00E3376B /* WordListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 322E3167292C1ABB00E3376B /* WordListCollectionViewCell.swift */; };
+		32599707292D9D0B005DDB1E /* Keys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32599706292D9D0B005DDB1E /* Keys.swift */; };
+		3259970B292DDA5E005DDB1E /* WordDataFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3259970A292DDA5E005DDB1E /* WordDataFetcher.swift */; };
 		3262D77329218DD200EC8C37 /* WordDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3262D77229218DD200EC8C37 /* WordDetailsViewController.swift */; };
 		3262D7762921A0F900EC8C37 /* WordDetailsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3262D7752921A0F900EC8C37 /* WordDetailsCell.swift */; };
 		326AA52228FC92B800841AA6 /* WordListTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 326AA52128FC92B800841AA6 /* WordListTableView.swift */; };
@@ -35,13 +37,15 @@
 		322DF89028ED0E52005A67E2 /* werdd.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = werdd.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		322DF89328ED0E52005A67E2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		322DF89528ED0E52005A67E2 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		322DF89728ED0E52005A67E2 /* BigCardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BigCardViewController.swift; sourceTree = "<group>"; };
+		322DF89728ED0E52005A67E2 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		322DF89C28ED0E53005A67E2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		322DF89F28ED0E53005A67E2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		322DF8A128ED0E53005A67E2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		322DF8A728ED10A8005A67E2 /* Styles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Styles.swift; sourceTree = "<group>"; };
 		322E3165292C1AA800E3376B /* WordListCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordListCollectionView.swift; sourceTree = "<group>"; };
 		322E3167292C1ABB00E3376B /* WordListCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordListCollectionViewCell.swift; sourceTree = "<group>"; };
+		32599706292D9D0B005DDB1E /* Keys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Keys.swift; sourceTree = "<group>"; };
+		3259970A292DDA5E005DDB1E /* WordDataFetcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordDataFetcher.swift; sourceTree = "<group>"; };
 		3262D77229218DD200EC8C37 /* WordDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordDetailsViewController.swift; sourceTree = "<group>"; };
 		3262D7752921A0F900EC8C37 /* WordDetailsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordDetailsCell.swift; sourceTree = "<group>"; };
 		326AA52128FC92B800841AA6 /* WordListTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordListTableView.swift; sourceTree = "<group>"; };
@@ -120,15 +124,14 @@
 		322DF89228ED0E52005A67E2 /* werdd */ = {
 			isa = PBXGroup;
 			children = (
-				3262D7742921A0EC00EC8C37 /* WordDetails */,
+				32599709292DDA33005DDB1E /* RequestAPI */,
 				321BC06728F1E57400112F6E /* Style */,
 				322DF89328ED0E52005A67E2 /* AppDelegate.swift */,
 				322DF89528ED0E52005A67E2 /* SceneDelegate.swift */,
-				322DF89728ED0E52005A67E2 /* BigCardViewController.swift */,
-				3262D77229218DD200EC8C37 /* WordDetailsViewController.swift */,
-				3293859128FB846400AC3B0F /* WordList */,
+				322DF89728ED0E52005A67E2 /* MainViewController.swift */,
 				3213B8BF2905449500FF6EA1 /* WordCard */,
-				3293858F28FB72CD00AC3B0F /* Data.swift */,
+				3293859128FB846400AC3B0F /* WordList */,
+				3262D7742921A0EC00EC8C37 /* WordDetails */,
 				322DF89C28ED0E53005A67E2 /* Assets.xcassets */,
 				322DF89E28ED0E53005A67E2 /* LaunchScreen.storyboard */,
 				322DF8A128ED0E53005A67E2 /* Info.plist */,
@@ -136,9 +139,20 @@
 			path = werdd;
 			sourceTree = "<group>";
 		};
+		32599709292DDA33005DDB1E /* RequestAPI */ = {
+			isa = PBXGroup;
+			children = (
+				32599706292D9D0B005DDB1E /* Keys.swift */,
+				3259970A292DDA5E005DDB1E /* WordDataFetcher.swift */,
+				3293858F28FB72CD00AC3B0F /* Data.swift */,
+			);
+			path = RequestAPI;
+			sourceTree = "<group>";
+		};
 		3262D7742921A0EC00EC8C37 /* WordDetails */ = {
 			isa = PBXGroup;
 			children = (
+				3262D77229218DD200EC8C37 /* WordDetailsViewController.swift */,
 				3262D7752921A0F900EC8C37 /* WordDetailsCell.swift */,
 			);
 			path = WordDetails;
@@ -233,10 +247,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3259970B292DDA5E005DDB1E /* WordDataFetcher.swift in Sources */,
 				3262D7762921A0F900EC8C37 /* WordDetailsCell.swift in Sources */,
-				322DF89828ED0E52005A67E2 /* BigCardViewController.swift in Sources */,
+				322DF89828ED0E52005A67E2 /* MainViewController.swift in Sources */,
 				32E345C5290F37F90063369C /* WordListTableViewCell.swift in Sources */,
 				3293859028FB72CD00AC3B0F /* Data.swift in Sources */,
+				32599707292D9D0B005DDB1E /* Keys.swift in Sources */,
 				322DF8A828ED10A8005A67E2 /* Styles.swift in Sources */,
 				3293859328FB848600AC3B0F /* WordCardViewCell.swift in Sources */,
 				322DF89428ED0E52005A67E2 /* AppDelegate.swift in Sources */,

@@ -53,7 +53,7 @@ class WordListCollectionViewCell: UICollectionViewCell {
     
     // MARK: - Helper function
     
-    func update(with word: WordData) {
+    func update(with word: RequestWordData) {
         wordCard.updateCell(with: word)
     }
     

@@ -7,11 +7,13 @@
 
 import UIKit
 
-class BigCardViewController: UIViewController {
+class MainViewController: UIViewController {
     
-    var data: [WordData]
+    let wordDataFetcher: WordDataFetcher
     
-    var highlightedWord: WordData?
+    var highlightedWord: RequestWordData?
+    
+    var searchResults: [RequestWordData] = []
     
     let mainWordContainer: UIView = {
         let view = UIView()
@@ -36,9 +38,8 @@ class BigCardViewController: UIViewController {
     
     // MARK: - init
     
-    init(using data: [WordData]) {
-        self.data = data
-        self.highlightedWord = Self.getRandomWord(from: data)
+    init(wordDataFetcher: WordDataFetcher) {
+        self.wordDataFetcher = wordDataFetcher
         self.wordCard = WordCardViewCell(with: highlightedWord)
         self.wordList = WordListTableView()
         
@@ -50,6 +51,14 @@ class BigCardViewController: UIViewController {
     }
     
     // MARK: - Lifecycle methods
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        wordDataFetcher.fetchRandomWord() { [weak self] word in
+            self?.highlightedWord = word
+            self?.wordCard.updateCell(with: word)
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -74,7 +83,7 @@ class BigCardViewController: UIViewController {
         let swipeGestureRecognizerLeft = UISwipeGestureRecognizer(target: self,
                                                                   action: #selector(didSwipe(_:)))
         swipeGestureRecognizerLeft.direction = .left
-        view.addGestureRecognizer(swipeGestureRecognizerLeft)
+        mainWordContainer.addGestureRecognizer(swipeGestureRecognizerLeft)
     }
     
     // MARK: - Set up UI
@@ -117,26 +126,23 @@ class BigCardViewController: UIViewController {
     }
     
     @objc private func refreshKnowledgeCard() {
-        let newWord = Self.getRandomWord(from: data)
-        highlightedWord = newWord
-        wordCard.updateCell(with: newWord)
-    }
-    
-    private static func getRandomWord(from dataset: [WordData]) -> WordData? {
-        dataset.randomElement() ?? nil
+        wordDataFetcher.fetchRandomWord() { [weak self] word in
+            self?.highlightedWord = word
+            self?.wordCard.updateCell(with: word)
+        }
     }
 }
 
-extension BigCardViewController: UITableViewDataSource {
+extension MainViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        data.count
+        searchResults.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "WordListTableViewCell", for: indexPath) as? WordListTableViewCell else {
             return UITableViewCell()
         }
-        let word = data[indexPath.row]
+        let word = searchResults[indexPath.row]
         cell.update(with: word)
         return cell
     }
@@ -150,15 +156,13 @@ extension BigCardViewController: UITableViewDataSource {
     }
 }
 
-extension BigCardViewController: UITableViewDelegate {
+extension MainViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if let cell = tableView.cellForRow(at: indexPath) as? WordListTableViewCell {
             cell.didSelect()
         }
-        
-        let newWord = data[indexPath.row]
-        highlightedWord = newWord
-        wordCard.updateCell(with: newWord)
+
+        // TODO: - On tap, show word details screen for the word card
     }
 
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
