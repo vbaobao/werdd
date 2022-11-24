@@ -136,20 +136,28 @@
 		322DF89228ED0E52005A67E2 /* werdd */ = {
 			isa = PBXGroup;
 			children = (
-				322DF89328ED0E52005A67E2 /* AppDelegate.swift */,
 				322DF89C28ED0E53005A67E2 /* Assets.xcassets */,
-				322DF8A128ED0E53005A67E2 /* Info.plist */,
 				322DF89E28ED0E53005A67E2 /* LaunchScreen.storyboard */,
-				322DF89728ED0E52005A67E2 /* MainViewController.swift */,
+				322DF8A128ED0E53005A67E2 /* Info.plist */,
+				32394509292FDB3F00D071AD /* BaseFiles */,
 				3221CD3A292F2D840022733D /* RandomWordCard */,
 				32599709292DDA33005DDB1E /* RequestAPI */,
-				322DF89528ED0E52005A67E2 /* SceneDelegate.swift */,
 				321BC06728F1E57400112F6E /* Style */,
 				3213B8BF2905449500FF6EA1 /* WordCard */,
 				3262D7742921A0EC00EC8C37 /* WordDetails */,
 				3293859128FB846400AC3B0F /* WordList */,
 			);
 			path = werdd;
+			sourceTree = "<group>";
+		};
+		32394509292FDB3F00D071AD /* BaseFiles */ = {
+			isa = PBXGroup;
+			children = (
+				322DF89328ED0E52005A67E2 /* AppDelegate.swift */,
+				322DF89728ED0E52005A67E2 /* MainViewController.swift */,
+				322DF89528ED0E52005A67E2 /* SceneDelegate.swift */,
+			);
+			path = BaseFiles;
 			sourceTree = "<group>";
 		};
 		32599709292DDA33005DDB1E /* RequestAPI */ = {

@@ -20,7 +20,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         let window = UIWindow(windowScene: windowScene)
         window.makeKeyAndVisible()
-        let nav = UINavigationController(rootViewController: MainViewController(wordDataFetcher: WordDataFetcher()))
+        let nav = UINavigationController(rootViewController: MainViewController())
         window.rootViewController = nav
         
         self.window = window

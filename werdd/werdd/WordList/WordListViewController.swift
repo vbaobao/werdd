@@ -9,18 +9,15 @@ import Foundation
 import UIKit
 
 class WordListViewController: UIViewController {
-    let wordDataFetcher: WordDataFetcher
+    let wordDataFetcher = WordDataFetcher()
     
     var searchResults: [RequestWordData] = []
     
-    let wordList: WordListTableView
+    let wordList = WordListTableView()
     
     // MARK: - init
     
-    init(wordDataFetcher: WordDataFetcher) {
-        self.wordDataFetcher = wordDataFetcher
-        self.wordList = WordListTableView()
-        
+    init() {
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -55,8 +52,7 @@ class WordListViewController: UIViewController {
             wordList.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             wordList.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             wordList.topAnchor.constraint(equalTo: view.topAnchor, constant: Padding.size(.medium)),
-            wordList.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-            wordList.heightAnchor.constraint(greaterThanOrEqualToConstant: 500)
+            wordList.bottomAnchor.constraint(equalTo: view.bottomAnchor),
         ])
     }
 }

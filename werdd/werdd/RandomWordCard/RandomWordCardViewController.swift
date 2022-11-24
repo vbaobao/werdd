@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 
 class RandomWordCardViewController: UIViewController {
-    let wordDataFetcher: WordDataFetcher
+    let wordDataFetcher = WordDataFetcher()
     
     var highlightedWord: RequestWordData?
     
@@ -21,7 +21,7 @@ class RandomWordCardViewController: UIViewController {
         return view
     }()
     
-    var wordCard: WordCardViewCell
+    var wordCard = WordCardViewCell(with: nil)
     
     lazy var refreshCardButton: UIButton = {
         let button = UIButton()
@@ -34,10 +34,7 @@ class RandomWordCardViewController: UIViewController {
     
     // MARK: - init
     
-    init(wordDataFetcher: WordDataFetcher) {
-        self.wordDataFetcher = wordDataFetcher
-        self.wordCard = WordCardViewCell(with: highlightedWord)
-        
+    init() {
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -72,8 +69,6 @@ class RandomWordCardViewController: UIViewController {
     private func setUpViews() {
         view.backgroundColor = Styles.background(.background)
         view.layer.cornerRadius = Padding.size(.rounding)
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = Styles.background(.accent)
         
         view.addSubview(mainWordContainer)
         mainWordContainer.addSubview(wordCard)
@@ -82,10 +77,10 @@ class RandomWordCardViewController: UIViewController {
 
     private func setUpConstraints() {
         NSLayoutConstraint.activate([
-            mainWordContainer.heightAnchor.constraint(greaterThanOrEqualToConstant: 250),
-            mainWordContainer.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            mainWordContainer.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: Padding.size(.large)),
-            mainWordContainer.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: Padding.size(.large) * -1),
+            mainWordContainer.topAnchor.constraint(equalTo: view.topAnchor, constant: Padding.size(.medium)),
+            mainWordContainer.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: Padding.size(.medium) * -1),
+            mainWordContainer.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Padding.size(.large)),
+            mainWordContainer.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: Padding.size(.large) * -1),
             
             wordCard.leadingAnchor.constraint(equalTo: mainWordContainer.leadingAnchor),
             wordCard.trailingAnchor.constraint(equalTo: mainWordContainer.trailingAnchor),
