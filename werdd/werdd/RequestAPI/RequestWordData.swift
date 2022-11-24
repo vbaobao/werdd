@@ -13,8 +13,8 @@ struct RequestWordData: Codable {
 }
 
 struct WordData: Codable {
-    let partOfSpeech: String
-    let definition: String
+    let partOfSpeech: String?
+    let definition: String?
     let synonyms: [String]?
     let antonyms: [String]?
     let examples: [String]?
