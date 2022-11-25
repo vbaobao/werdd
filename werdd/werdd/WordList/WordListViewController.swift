@@ -23,7 +23,7 @@ class WordListViewController: UIViewController {
     let searchBar: UISearchBar = {
         let view = UISearchBar()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.placeholder = "Search"
+        view.placeholder = "Enter a word here!"
         view.searchBarStyle = .minimal
         view.showsCancelButton = false
         view.showsBookmarkButton = false
@@ -68,7 +68,8 @@ class WordListViewController: UIViewController {
         wordList.dataSource = self
         wordList.register(WordListTableViewCell.self, forCellReuseIdentifier: "WordListTableViewCell")
         wordList.rowHeight = UITableView.automaticDimension
-        wordList.estimatedRowHeight = 80
+        wordList.estimatedRowHeight = 100
+        wordList.space
     }
     
     // MARK: - Set up UI
