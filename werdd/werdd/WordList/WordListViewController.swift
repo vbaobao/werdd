@@ -11,7 +11,7 @@ import UIKit
 class WordListViewController: UIViewController {
     let wordDataFetcher = WordDataFetcher()
     
-    var searchResultData: [RequestWordData] = []
+    var searchResultData: RequestWordData?
     
     let searchStackView: UIStackView = {
         let view = UIStackView()
@@ -23,14 +23,14 @@ class WordListViewController: UIViewController {
     let searchBar: UISearchBar = {
         let view = UISearchBar()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.placeholder = "Search"
+        view.placeholder = "Enter a word here!"
         view.searchBarStyle = .minimal
         view.showsCancelButton = false
         view.showsBookmarkButton = false
         return view
     }()
     
-    let searchButton: UIButton = {
+    lazy var searchButton: UIButton = {
         var config = UIButton.Configuration.filled()
         config.cornerStyle = .large
         config.title = "Search"
@@ -40,6 +40,7 @@ class WordListViewController: UIViewController {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.configuration = config
+        button.addTarget(self, action: #selector(searchButtonTapped), for: .touchUpInside)
         return button
     }()
     
@@ -67,7 +68,8 @@ class WordListViewController: UIViewController {
         wordList.dataSource = self
         wordList.register(WordListTableViewCell.self, forCellReuseIdentifier: "WordListTableViewCell")
         wordList.rowHeight = UITableView.automaticDimension
-        wordList.estimatedRowHeight = 80
+        wordList.estimatedRowHeight = 100
+        wordList.space
     }
     
     // MARK: - Set up UI
@@ -98,19 +100,30 @@ class WordListViewController: UIViewController {
             searchButton.heightAnchor.constraint(equalToConstant: 36)
         ])
     }
+    
+    // MARK: - Actions
+    
+    @objc private func searchButtonTapped() {
+        guard let query = searchBar.text else { return }
+        wordDataFetcher.fetchWord(query) { [weak self] data in
+            self?.searchResultData = data
+            self?.wordList.reloadData()
+        }
+    }
 }
 
 extension WordListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        searchResultData.count
+        searchResultData?.results.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "WordListTableViewCell", for: indexPath) as? WordListTableViewCell else {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "WordListTableViewCell", for: indexPath) as? WordListTableViewCell, let searchResult = searchResultData else {
             return UITableViewCell()
         }
-        let word = searchResultData[indexPath.row]
-        cell.update(with: word)
+        
+        let data = searchResult.results[indexPath.row]
+        cell.update(with: searchResult.word, data: data)
         return cell
     }
     
@@ -136,6 +149,18 @@ extension WordListViewController: UITableViewDelegate {
         if let cell = tableView.cellForRow(at: indexPath) as? WordListTableViewCell {
             cell.didDeselect()
         }
+    }
+    
+    func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
+        if let cell = tableView.cellForRow(at: indexPath) as? WordListTableViewCell, let delegate = tableView.delegate {
+            if cell.isSelected {
+                _ = delegate.tableView?(tableView, willDeselectRowAt:indexPath)
+                tableView.deselectRow(at: indexPath, animated: true)
+                delegate.tableView?(tableView, didDeselectRowAt:indexPath)
+                return nil
+            }
+        }
+        return indexPath
     }
 }
 

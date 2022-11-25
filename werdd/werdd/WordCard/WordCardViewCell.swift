@@ -21,7 +21,7 @@ class WordCardViewCell: UIView {
         setWord()
         setPartOfSpeech()
         setDefinition()
-        updateCell(with: data)
+        updateCell(with: data?.word, data: data?.results[0])
     }
     
     required init?(coder: NSCoder) {
@@ -105,11 +105,11 @@ class WordCardViewCell: UIView {
         definition.textColor = color
     }
     
-    func updateCell(with data: RequestWordData?) {
+    func updateCell(with newWord: String?, data: WordData?) {
         if let data = data {
-            word.text = data.word
-            partOfSpeech.text = data.results.first?.partOfSpeech
-            definition.text = data.results.first?.definition
+            word.text = newWord
+            partOfSpeech.text = data.partOfSpeech
+            definition.text = data.definition
         } else {
             word.text = NSLocalizedString("Error", comment: "Error title")
             partOfSpeech.text = ""

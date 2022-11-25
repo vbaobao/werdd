@@ -48,7 +48,7 @@ class RandomWordCardViewController: UIViewController {
         super.viewWillAppear(animated)
         wordDataFetcher.fetchRandomWord() { [weak self] word in
             self?.highlightedWord = word
-            self?.wordCard.updateCell(with: word)
+            self?.wordCard.updateCell(with: word.word, data: word.results[0])
         }
     }
     
@@ -102,7 +102,7 @@ class RandomWordCardViewController: UIViewController {
     @objc private func refreshKnowledgeCard() {
         wordDataFetcher.fetchRandomWord() { [weak self] word in
             self?.highlightedWord = word
-            self?.wordCard.updateCell(with: word)
+            self?.wordCard.updateCell(with: word.word, data: word.results[0])
         }
     }
 }
