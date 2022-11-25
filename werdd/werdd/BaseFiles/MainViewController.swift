@@ -75,7 +75,7 @@ class MainViewController: UIViewController {
             highlightedWordCardVCContainer.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             highlightedWordCardVCContainer.bottomAnchor.constraint(equalTo: searchWordListVCContainer.topAnchor),
             
-            searchWordListVCContainer.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            searchWordListVCContainer.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             searchWordListVCContainer.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             searchWordListVCContainer.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             searchWordListVCContainer.heightAnchor.constraint(greaterThanOrEqualTo: view.heightAnchor, multiplier: 0.5),
