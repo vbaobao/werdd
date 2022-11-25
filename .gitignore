@@ -11,6 +11,7 @@ xcuserdata/
 
 ### Xcode Patch ###
 *.xcodeproj/*
+*.xcuserdatad/UserInterfaceState.xcuserstate
 !*.xcodeproj/project.pbxproj
 !*.xcodeproj/xcshareddata/
 !*.xcworkspace/contents.xcworkspacedata
