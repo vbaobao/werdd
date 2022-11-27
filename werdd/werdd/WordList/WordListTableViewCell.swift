@@ -13,7 +13,12 @@ class WordListTableViewCell: UITableViewCell {
     var wordCard: WordCardViewCell
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        self.wordCard = WordCardViewCell(with: nil)
+        self.wordCard = WordCardViewCell(with: WordData(word: "",
+                                                        definition: "",
+                                                        partOfSpeech: "",
+                                                        synonyms: nil,
+                                                        antonyms: nil,
+                                                        examples: nil))
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         translatesAutoresizingMaskIntoConstraints = false
         setUpUI()
@@ -28,6 +33,15 @@ class WordListTableViewCell: UITableViewCell {
         super.layoutSubviews()
         
         contentView.frame = contentView.frame.inset(by: UIEdgeInsets(top: 4, left: 10, bottom: 0, right: 10))
+    }
+    
+    override func prepareForReuse() {
+        wordCard = WordCardViewCell(with: WordData(word: "",
+                                                        definition: "",
+                                                        partOfSpeech: "",
+                                                        synonyms: nil,
+                                                        antonyms: nil,
+                                                        examples: nil))
     }
     
     // MARK: - Set up UI
@@ -60,18 +74,12 @@ class WordListTableViewCell: UITableViewCell {
     
     // MARK: - Helper function
     
-    func update(with word: String, data: WordData) {
-        wordCard.updateCell(with: word, data: data)
-    }
-    
-    func didSelect() {
-        UIView.animate(withDuration: 0.4) {
+    func update(data: WordData) {
+        wordCard.updateCell(data: data)
+        
+        if data.isSelected {
             self.contentView.backgroundColor = Styles.background(.primary)
-        }
-    }
-    
-    func didDeselect() {
-        UIView.animate(withDuration: 0.4) {
+        } else {
             self.contentView.backgroundColor = .init(white: 1, alpha: 0.5)
         }
     }

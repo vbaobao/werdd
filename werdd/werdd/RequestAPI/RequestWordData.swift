@@ -9,13 +9,23 @@ import Foundation
 
 struct RequestWordData: Codable {
     let word: String
-    let results: [WordData]
+    let results: [RequestWordDetails]
 }
 
-struct WordData: Codable {
-    let partOfSpeech: String?
-    let definition: String?
+struct RequestWordDetails: Codable {
+    let partOfSpeech: String
+    let definition: String
     let synonyms: [String]?
     let antonyms: [String]?
     let examples: [String]?
+}
+
+struct WordData {
+    let word: String
+    let definition: String
+    let partOfSpeech: String
+    let synonyms: [String]?
+    let antonyms: [String]?
+    let examples: [String]?
+    var isSelected = false
 }

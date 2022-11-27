@@ -13,7 +13,12 @@ class WordListCollectionViewCell: UICollectionViewCell {
     var wordCard: WordCardViewCell
     
     init() {
-        self.wordCard = WordCardViewCell(with: nil)
+        self.wordCard = WordCardViewCell(with: WordData(word: "",
+                                                        definition: "No word data!",
+                                                        partOfSpeech: "", 
+                                                        synonyms: nil,
+                                                        antonyms: nil,
+                                                        examples: nil))
         super.init(frame: .zero)
         translatesAutoresizingMaskIntoConstraints = false
         setUpUI()
@@ -53,8 +58,8 @@ class WordListCollectionViewCell: UICollectionViewCell {
     
     // MARK: - Helper function
     
-    func update(with word: String?, data: WordData?) {
-        wordCard.updateCell(with: word, data: data)
+    func update(data: WordData) {
+        wordCard.updateCell(data: data)
     }
     
     func didSelect() {

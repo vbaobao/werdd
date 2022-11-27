@@ -11,7 +11,7 @@ import UIKit
 class WordListViewController: UIViewController {
     let wordDataFetcher = WordDataFetcher()
     
-    var searchResultData: RequestWordData?
+    var searchResultData = [WordData]()
     
     let searchStackView: UIStackView = {
         let view = UIStackView()
@@ -69,7 +69,6 @@ class WordListViewController: UIViewController {
         wordList.register(WordListTableViewCell.self, forCellReuseIdentifier: "WordListTableViewCell")
         wordList.rowHeight = UITableView.automaticDimension
         wordList.estimatedRowHeight = 100
-        wordList.space
     }
     
     // MARK: - Set up UI
@@ -106,6 +105,7 @@ class WordListViewController: UIViewController {
     @objc private func searchButtonTapped() {
         guard let query = searchBar.text else { return }
         wordDataFetcher.fetchWord(query) { [weak self] data in
+            
             self?.searchResultData = data
             self?.wordList.reloadData()
         }
@@ -114,16 +114,15 @@ class WordListViewController: UIViewController {
 
 extension WordListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        searchResultData?.results.count ?? 0
+        searchResultData.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "WordListTableViewCell", for: indexPath) as? WordListTableViewCell, let searchResult = searchResultData else {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "WordListTableViewCell", for: indexPath) as? WordListTableViewCell else {
             return UITableViewCell()
         }
         
-        let data = searchResult.results[indexPath.row]
-        cell.update(with: searchResult.word, data: data)
+        cell.update(data: searchResultData[indexPath.row])
         return cell
     }
     
@@ -137,17 +136,26 @@ extension WordListViewController: UITableViewDataSource {
 }
 
 extension WordListViewController: UITableViewDelegate {
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if let cell = tableView.cellForRow(at: indexPath) as? WordListTableViewCell {
-            cell.didSelect()
+            UIView.animate(withDuration: 0.4) {
+                cell.contentView.backgroundColor = Styles.background(.primary)
+            }
+            searchResultData[indexPath.row].isSelected = true
+            
+            navigationController?
+                .pushViewController(WordDetailsViewController(data: searchResultData[indexPath.row]),
+                                    animated: true)
         }
-
-        // TODO: - On tap, show word details screen for the word card
     }
 
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
         if let cell = tableView.cellForRow(at: indexPath) as? WordListTableViewCell {
-            cell.didDeselect()
+            UIView.animate(withDuration: 0.4) {
+                cell.contentView.backgroundColor = .init(white: 1, alpha: 0.5)
+            }
+            searchResultData[indexPath.row].isSelected = false
         }
     }
     

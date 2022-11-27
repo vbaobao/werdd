@@ -11,7 +11,7 @@ import UIKit
 class RandomWordCardViewController: UIViewController {
     let wordDataFetcher = WordDataFetcher()
     
-    var highlightedWord: RequestWordData?
+    var highlightedWord: WordData?
     
     let mainWordContainer: UIView = {
         let view = UIView()
@@ -21,7 +21,12 @@ class RandomWordCardViewController: UIViewController {
         return view
     }()
     
-    var wordCard = WordCardViewCell(with: nil)
+    var wordCard = WordCardViewCell(with: WordData(word: "",
+                                                   definition: "No word selected!",
+                                                   partOfSpeech: "",
+                                                   synonyms: nil,
+                                                   antonyms: nil,
+                                                   examples: nil))
     
     lazy var refreshCardButton: UIButton = {
         let button = UIButton()
@@ -44,15 +49,12 @@ class RandomWordCardViewController: UIViewController {
     
     // MARK: - Lifecycle methods
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        wordDataFetcher.fetchRandomWord() { [weak self] word in
-            self?.highlightedWord = word
-            self?.wordCard.updateCell(with: word.word, data: word.results[0])
-        }
-    }
-    
     override func viewDidLoad() {
+        wordDataFetcher.fetchRandomWord() { [weak self] result in
+            self?.highlightedWord = result
+            self?.wordCard.updateCell(data: result)
+        }
+        
         super.viewDidLoad()
         setUpViews()
         setUpConstraints()
@@ -95,14 +97,16 @@ class RandomWordCardViewController: UIViewController {
     // MARK: - Private helper functions
     
     @objc private func didSwipe(_ sender: UISwipeGestureRecognizer) {
-        navigationController?.pushViewController(WordDetailsViewController(word: highlightedWord),
-                                                 animated: true)
+        if let highlightedWord = highlightedWord {
+            navigationController?.pushViewController(WordDetailsViewController(data: highlightedWord),
+                                                     animated: true)
+        }
     }
     
     @objc private func refreshKnowledgeCard() {
         wordDataFetcher.fetchRandomWord() { [weak self] word in
             self?.highlightedWord = word
-            self?.wordCard.updateCell(with: word.word, data: word.results[0])
+            self?.wordCard.updateCell(data: word)
         }
     }
 }
