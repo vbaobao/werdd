@@ -12,7 +12,7 @@ class WordCardViewCell: UIView {
     
     // MARK: - init
     
-    init(with data: RequestWordData?) {
+    init(with data: WordData) {
         super.init(frame: .zero)
         translatesAutoresizingMaskIntoConstraints = false
         setUpViews()
@@ -21,7 +21,7 @@ class WordCardViewCell: UIView {
         setWord()
         setPartOfSpeech()
         setDefinition()
-        updateCell(with: data?.word, data: data?.results[0])
+        updateCell(data: data)
     }
     
     required init?(coder: NSCoder) {
@@ -105,15 +105,9 @@ class WordCardViewCell: UIView {
         definition.textColor = color
     }
     
-    func updateCell(with newWord: String?, data: WordData?) {
-        if let data = data {
-            word.text = newWord
-            partOfSpeech.text = data.partOfSpeech
-            definition.text = data.definition
-        } else {
-            word.text = NSLocalizedString("Error", comment: "Error title")
-            partOfSpeech.text = ""
-            definition.text = NSLocalizedString("No word available!", comment: "Error message if there is no data from API call")
-        }
+    func updateCell(data: WordData) {
+        word.text = data.word
+        partOfSpeech.text = data.partOfSpeech
+        definition.text = data.definition
     }
 }

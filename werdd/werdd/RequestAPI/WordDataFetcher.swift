@@ -9,7 +9,7 @@ import Foundation
 
 class WordDataFetcher {
     func fetchWord(_ word: String,
-                   completion: @escaping (RequestWordData) -> Void) -> Void {
+                   completion: @escaping ([WordData]) -> Void) -> Void {
         guard let wordUrl = URL(string: "\(APIConstants.fetch_word_url)\(word)") else {
             print("Invalid URL")
             return
@@ -33,9 +33,18 @@ class WordDataFetcher {
             
             do {
                 let word = try JSONDecoder().decode(RequestWordData.self, from: data)
+                var wordList = [WordData]()
+                for result in word.results {
+                    wordList.append(WordData(word: word.word,
+                                            definition: result.definition,
+                                            partOfSpeech: result.partOfSpeech,
+                                            synonyms: result.synonyms,
+                                            antonyms: result.antonyms,
+                                            examples: result.examples))
+                }
                 
                 DispatchQueue.main.async {
-                    completion(word)
+                    completion(wordList)
                 }
             } catch {
                 print("Failed to convert \(error)")
@@ -43,7 +52,7 @@ class WordDataFetcher {
         }.resume()
     }
     
-    func fetchRandomWord(completion: @escaping (RequestWordData) -> Void) -> Void {
+    func fetchRandomWord(completion: @escaping (WordData) -> Void) -> Void {
         guard let wordUrl = URL(string: "\(APIConstants.fetch_random_url)") else {
             print("Invalid URL")
             return
@@ -68,7 +77,15 @@ class WordDataFetcher {
             do {
                 let word = try JSONDecoder().decode(RequestWordData.self, from: data)
                 DispatchQueue.main.async {
-                    completion(word)
+                    let randomIndex = Int.random(in: 0..<word.results.count)
+                    let targetWord = word.results[randomIndex]
+                    let wordData = WordData(word: word.word,
+                                            definition: targetWord.definition,
+                                            partOfSpeech: targetWord.partOfSpeech,
+                                            synonyms: targetWord.synonyms,
+                                            antonyms: targetWord.antonyms,
+                                            examples: targetWord.examples)
+                    completion(wordData)
                 }
             } catch {
                 print("Failed to convert \(error)")

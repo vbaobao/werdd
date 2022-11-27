@@ -9,7 +9,13 @@ import UIKit
 
 class WordDetailsViewController: UIViewController {
     
-    var word: RequestWordData?
+    var data: WordData
+    
+    var scrollView: UIScrollView = {
+        let view = UIScrollView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
     
     var stackview: UIStackView = {
         let view = UIStackView()
@@ -19,10 +25,9 @@ class WordDetailsViewController: UIViewController {
         return view
     }()
     
-    init(word: RequestWordData?) {
-        self.word = word
+    init(data: WordData) {
+        self.data = data
         super.init(nibName: nil, bundle: nil)
-        setUpUI()
     }
     
     required init?(coder: NSCoder) {
@@ -33,7 +38,7 @@ class WordDetailsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationItem.title = word?.word
+        navigationItem.title = data.word
         navigationController?.navigationBar.tintColor = .black
         setUpUI()
         setUpConstraints()
@@ -49,16 +54,39 @@ class WordDetailsViewController: UIViewController {
     
     private func setUpUI() {
         view.backgroundColor = Styles.background(.background)
-        view.addSubview(stackview)
-        // TODO: - Add subviews based on cells we need for this particular word
+        view.addSubview(scrollView)
+        scrollView.addSubview(stackview)
+        addWordCellsAsSubview()
+    }
+    
+    private func addWordCellsAsSubview() {
+        stackview.addArrangedSubview(WordDetailsCell(type: .definition, content: data.definition, partOfSpeech: data.partOfSpeech))
+        
+        if let synonyms = data.synonyms {
+            stackview.addArrangedSubview(WordDetailsCell(type: .synonym, content: synonyms.joined(separator: ", ")))
+        }
+        
+        if let antonyms = data.antonyms {
+            stackview.addArrangedSubview(WordDetailsCell(type: .antonym, content: antonyms.joined(separator: ", ")))
+        }
+        
+        if let examples = data.examples {
+            for example in examples {
+                stackview.addArrangedSubview(WordDetailsCell(type: .example, content: example))
+            }
+        }
     }
     
     private func setUpConstraints() {
         NSLayoutConstraint.activate([
-            stackview.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: Padding.size(.medium)),
-            stackview.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-            stackview.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: Padding.size(.medium)),
-            stackview.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: Padding.size(.medium) * -1),
+            scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: Padding.size(.medium)),
+            scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            scrollView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: Padding.size(.medium)),
+            scrollView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: Padding.size(.medium) * -1),
+            
+            stackview.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
+            stackview.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
+            stackview.widthAnchor.constraint(equalTo: scrollView.widthAnchor, multiplier: 1)
         ])
     }
     
