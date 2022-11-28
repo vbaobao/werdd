@@ -9,6 +9,10 @@
 /* Begin PBXBuildFile section */
 		3221CD39292F2D5F0022733D /* WordListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3221CD38292F2D5F0022733D /* WordListViewController.swift */; };
 		3221CD3C292F2DA20022733D /* RandomWordCardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3221CD3B292F2DA20022733D /* RandomWordCardViewController.swift */; };
+		322C29302934893C0090AF02 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 322C292F2934893C0090AF02 /* DataManager.swift */; };
+		322C2933293489530090AF02 /* FavoriteWords.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 322C2931293489530090AF02 /* FavoriteWords.xcdatamodeld */; };
+		322C293629348FA90090AF02 /* FavoriteWords+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 322C293429348FA90090AF02 /* FavoriteWords+CoreDataClass.swift */; };
+		322C293729348FA90090AF02 /* FavoriteWords+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 322C293529348FA90090AF02 /* FavoriteWords+CoreDataProperties.swift */; };
 		322DF89428ED0E52005A67E2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 322DF89328ED0E52005A67E2 /* AppDelegate.swift */; };
 		322DF89628ED0E52005A67E2 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 322DF89528ED0E52005A67E2 /* SceneDelegate.swift */; };
 		322DF89828ED0E52005A67E2 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 322DF89728ED0E52005A67E2 /* MainViewController.swift */; };
@@ -38,6 +42,10 @@
 /* Begin PBXFileReference section */
 		3221CD38292F2D5F0022733D /* WordListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordListViewController.swift; sourceTree = "<group>"; };
 		3221CD3B292F2DA20022733D /* RandomWordCardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RandomWordCardViewController.swift; sourceTree = "<group>"; };
+		322C292F2934893C0090AF02 /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
+		322C2932293489530090AF02 /* DataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DataModel.xcdatamodel; sourceTree = "<group>"; };
+		322C293429348FA90090AF02 /* FavoriteWords+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FavoriteWords+CoreDataClass.swift"; sourceTree = "<group>"; };
+		322C293529348FA90090AF02 /* FavoriteWords+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FavoriteWords+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		322DF89028ED0E52005A67E2 /* werdd.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = werdd.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		322DF89328ED0E52005A67E2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		322DF89528ED0E52005A67E2 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -117,6 +125,26 @@
 			path = RandomWordCard;
 			sourceTree = "<group>";
 		};
+		322C29382934963A0090AF02 /* CoreData */ = {
+			isa = PBXGroup;
+			children = (
+				322C292F2934893C0090AF02 /* DataManager.swift */,
+				322C2931293489530090AF02 /* FavoriteWords.xcdatamodeld */,
+				322C293429348FA90090AF02 /* FavoriteWords+CoreDataClass.swift */,
+				322C293529348FA90090AF02 /* FavoriteWords+CoreDataProperties.swift */,
+			);
+			path = CoreData;
+			sourceTree = "<group>";
+		};
+		322C2939293496410090AF02 /* WordsAPI */ = {
+			isa = PBXGroup;
+			children = (
+				32599706292D9D0B005DDB1E /* Keys.swift */,
+				3259970A292DDA5E005DDB1E /* WordDataFetcher.swift */,
+			);
+			path = WordsAPI;
+			sourceTree = "<group>";
+		};
 		322DF88728ED0E52005A67E2 = {
 			isa = PBXGroup;
 			children = (
@@ -141,7 +169,7 @@
 				322DF8A128ED0E53005A67E2 /* Info.plist */,
 				32394509292FDB3F00D071AD /* BaseFiles */,
 				3221CD3A292F2D840022733D /* RandomWordCard */,
-				32599709292DDA33005DDB1E /* RequestAPI */,
+				32599709292DDA33005DDB1E /* API */,
 				321BC06728F1E57400112F6E /* Style */,
 				3213B8BF2905449500FF6EA1 /* WordCard */,
 				3262D7742921A0EC00EC8C37 /* WordDetails */,
@@ -160,14 +188,14 @@
 			path = BaseFiles;
 			sourceTree = "<group>";
 		};
-		32599709292DDA33005DDB1E /* RequestAPI */ = {
+		32599709292DDA33005DDB1E /* API */ = {
 			isa = PBXGroup;
 			children = (
-				32599706292D9D0B005DDB1E /* Keys.swift */,
-				3259970A292DDA5E005DDB1E /* WordDataFetcher.swift */,
+				322C2939293496410090AF02 /* WordsAPI */,
+				322C29382934963A0090AF02 /* CoreData */,
 				3293858F28FB72CD00AC3B0F /* RequestWordData.swift */,
 			);
-			path = RequestAPI;
+			path = API;
 			sourceTree = "<group>";
 		};
 		3262D7742921A0EC00EC8C37 /* WordDetails */ = {
@@ -278,11 +306,15 @@
 				32599707292D9D0B005DDB1E /* Keys.swift in Sources */,
 				322DF8A828ED10A8005A67E2 /* Styles.swift in Sources */,
 				3293859328FB848600AC3B0F /* WordCardViewCell.swift in Sources */,
+				322C293629348FA90090AF02 /* FavoriteWords+CoreDataClass.swift in Sources */,
+				322C29302934893C0090AF02 /* DataManager.swift in Sources */,
 				322DF89428ED0E52005A67E2 /* AppDelegate.swift in Sources */,
 				322E3166292C1AA800E3376B /* WordListCollectionView.swift in Sources */,
 				322E3168292C1ABB00E3376B /* WordListCollectionViewCell.swift in Sources */,
 				326AA52228FC92B800841AA6 /* WordListTableView.swift in Sources */,
+				322C293729348FA90090AF02 /* FavoriteWords+CoreDataProperties.swift in Sources */,
 				322DF89628ED0E52005A67E2 /* SceneDelegate.swift in Sources */,
+				322C2933293489530090AF02 /* FavoriteWords.xcdatamodeld in Sources */,
 				3262D77329218DD200EC8C37 /* WordDetailsViewController.swift in Sources */,
 				3221CD3C292F2DA20022733D /* RandomWordCardViewController.swift in Sources */,
 			);
@@ -490,6 +522,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		322C2931293489530090AF02 /* FavoriteWords.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				322C2932293489530090AF02 /* DataModel.xcdatamodel */,
+			);
+			currentVersion = 322C2932293489530090AF02 /* DataModel.xcdatamodel */;
+			path = FavoriteWords.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 322DF88828ED0E52005A67E2 /* Project object */;
 }
